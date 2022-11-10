@@ -19,9 +19,12 @@ import dao.douUsuario;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class vUsuario extends JFrame {
 	douUsuario dou=new douUsuario();
+	int fila= -1;
 	DefaultTableModel modelo=new DefaultTableModel();
 	ArrayList<Usuario>lista=new ArrayList<Usuario>();
 	private JTable tblUsuario;
@@ -114,6 +117,24 @@ public class vUsuario extends JFrame {
 		contentPane.add(btnEditar);
 		
 		JButton btnEliminar = new JButton("ELIMINAR");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					int opcion = JOptionPane.showConfirmDialog(null, "ESTAS SEGURO DE ELIMINAR ESTE USUARIO?");
+					if(opcion ==0) {
+						
+					}
+				if(dou.eliminarUsuario(lista.get(fila).getId())) {
+					actualizarTabla();
+					JOptionPane.showMessageDialog(null, "ELIMNAR CORRECTAMENTE!!");
+				}else {
+					JOptionPane.showMessageDialog(null, "ERROR");
+				}
+			}catch(Exception ex ) {
+				JOptionPane.showMessageDialog(null, "ERROR");
+			}
+			}
+		});
 		btnEliminar.setBounds(213, 188, 89, 23);
 		contentPane.add(btnEliminar);
 		
@@ -126,6 +147,13 @@ public class vUsuario extends JFrame {
 		contentPane.add(scrollPane);
 		
 		tblUsuario = new JTable();
+		tblUsuario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				fila=tblUsuario.getSelectedRow();
+				lblID.setText(""+lista.get(fila).getId());
+			}
+		});
 		tblUsuario.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null},

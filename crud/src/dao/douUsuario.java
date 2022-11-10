@@ -48,5 +48,18 @@ public class douUsuario {
 		}
 		return lista;
 	}
+	public boolean eliminarUsuario(int Id) {
+		PreparedStatement ps=null;
+		try {
+			ps = cx.conectar().prepareStatement("DELETE FROM  usuario WHERE id=?");
+			ps.setInt(1, Id);
+			ps.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
 
